@@ -158,7 +158,7 @@ grey-box gradient-based methods for AttributedCFG
 
 <img src="../assets/images/image-20250620145700397.png" alt="image-20250620145700397" style="zoom:40%;" />
 
- Specific features manipulated: Opcodes of the progras
+ Specific features manipulated: Opcodes of the programs
 
 #### MalGuise[11]
 
