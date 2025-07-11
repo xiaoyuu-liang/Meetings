@@ -327,13 +327,25 @@ malware, during evolution, keep semantics but different implementation
 
 #### MsDroid[8]
 
+identify malicious snippets with interpretable explanation
+
+
+
 ***Abstraction:*** 
 
 ***Workflow***:
 
 1. Graph extraction 
+   - behavior subgraph set (BSS): possible malicious snippets
+     1. k-hop neighbourhoods permissions related API
+     2. partition into four subsets
+     3. subgraph reduction
 2. Feature encoding 
+   - call graph, opcode, permissions 
 3. Classification
+   - subgraph classification
+
+![image-20250711114015659](../assets/images/image-20250711114015659.png)
 
 
 
