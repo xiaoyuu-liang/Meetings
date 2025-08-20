@@ -243,6 +243,57 @@ API graph embedding along with Permission and Intent as features for classificat
 
 
 
+#### FCGHunter[10]
+
+FCG
+
+enhance *exploration* and *exploitation*
+
+
+
+***Challenge***
+
+1. vast perturbation space
+   - pinpoint critical areas with sensitive API calls
+   - novel perturbation types
+   - dependency-aware mutation representation and conflict-resolving strategy
+   - SHAP-based interpretation feedback
+
+***Contribution***
+
+- adversarial samples
+
+***
+
+***genetic algorithm***
+
+- individual=sequence of perturbation 
+- gene=subsequence
+
+***perturbation***
+
+three new: add sparse node, add dense node, add long edges
+
+**FCGHunter**
+
+1. identify critical area
+   - sensitive API then backward traversal
+2. genetic algorithm to optimize perturbation
+   1. dependency analysis, group operation into subsequences
+   2. crossover and mutation
+   3. select based on interpretation
+3. evaluate and select
+   - guidance with feature interpretation (SHAP)
+   - surrogate model for instance-based model
+
+***workflow***
+
+![image-20250728192736215](../assets/images/image-20250728192736215.png)
+
+> open-source: https://anonymous.4open.science/r/FCGHUNTER
+
+
+
 ### Graph-based Detection
 
 #### MaMaDroid[5]
@@ -329,9 +380,7 @@ malware, during evolution, keep semantics but different implementation
 
 identify malicious snippets with interpretable explanation
 
-
-
-***Abstraction:*** 
+***Abstraction:*** function call graph
 
 ***Workflow***:
 
@@ -341,11 +390,45 @@ identify malicious snippets with interpretable explanation
      2. partition into four subsets
      3. subgraph reduction
 2. Feature encoding 
-   - call graph, opcode, permissions 
+   - call graph, opcode, permissions
 3. Classification
-   - subgraph classification
+   - subgraph classification with MPNN (MLP+avg pool+max pool+MLP)
+   - app subgraph loss
+3. Explaination
+   - suspicious API usage, calling heat graphs, similar behavioral snippets 
 
 ![image-20250711114015659](../assets/images/image-20250711114015659.png)
+
+
+
+### Graph-based defense
+
+#### MaskDroid[9]
+
+masking mechinism + GNN to recover graph with a small portion of nodes
+
+contrastive module to learn more compact representation 
+
+***Abstraction:*** function call graph
+
+***Workflow***:
+
+1. Graph extraction 
+   - <img src="../assets/images/image-20250620162745600.png" alt="image-20250620162745600" style="zoom:50%;" />
+   - same as MsDroid: sensitive API subgraph with opcode + permission as feature
+2. Feature encoding 
+   - random masking (80% masked out) with learninable vector
+   - GNN encoder + GNN decoder
+3. Classification
+   - proxy-based (learnable vector) contrastive learning
+
+![image-20250620150633231](../assets/images/image-20250620150633231.png)
+
+==Idea==: diffusion as reconstruction module
+
+==Challenge==: diffusion noise design
+
+
 
 
 
@@ -366,3 +449,7 @@ identify malicious snippets with interpretable explanation
 [7] X. Zhang *et al.*, “Enhancing State-of-the-art Classifiers with API Semantics to Detect Evolved Android Malware,” in CCS ’20.
 
 [8] Y. He, Y. Liu, L. Wu, Z. Yang, K. Ren, and Z. Qin, “MsDroid: Identifying Malicious Snippets for Android Malware Detection,” TDSC 2023.
+
+[9] J. Zheng *et al.*, “MaskDroid: Robust Android Malware Detection with Masked Graph Representations,” in ASE'24.
+
+[10] S. Song, X. Xie, R. Feng, Q. Guo, and S. Chen, “FCGHunter: Towards Evaluating Robustness of Graph-Based Android Malware Detection,” 2025, arXiv:2504.19456.
